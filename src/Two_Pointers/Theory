@@ -1,0 +1,75 @@
+1️⃣ Why This Pattern Exists
+
+Two Pointers exists to replace nested iteration when:
+
+You are scanning a linear structure
+
+And the problem’s logic depends on relative positions, not absolute ones
+
+Instead of:
+
+“For every i, scan all j > i”
+
+We exploit structure to move pointers monotonically, ensuring O(n) total movement.
+
+Core idea:
+If moving forward never invalidates past work, you don’t need to go back.
+
+2️⃣ Problem Class It Solves
+
+Two Pointers solves problems where:
+
+You are given one sequence (or two sequences)
+
+You need to evaluate relationships between elements
+
+And pointer movement is irreversible
+
+Common high-level tasks:
+
+Pair with condition (sum, difference, distance)
+
+Partitioning
+
+Deduplication / compression
+
+Matching across two sequences
+
+Crucially:
+
+You are not “tracking a window”
+You are coordinating two positions
+
+3️⃣ Required Constraints (Non-Negotiable)
+
+If any of these fail, Two Pointers is invalid.
+
+✅ Constraint 1: Monotonic Progress
+
+At least one pointer must only move forward.
+
+If a pointer needs to move backward → ❌ not Two Pointers.
+
+✅ Constraint 2: Order Has Meaning
+
+The sequence must be:
+
+sorted, OR
+
+grouped, OR
+
+logically ordered (e.g. positives before negatives)
+
+If order is irrelevant → ❌ Two Pointers collapses.
+
+✅ Constraint 3: Local Decisions Are Safe
+
+When you move a pointer, you are not discarding future valid answers.
+
+This is the hardest one and the most abused.
+
+If:
+
+“Moving left might remove a solution involving a future right”
+
+Then Two Pointers fails.
