@@ -1,0 +1,22 @@
+1 - Sorted Pair Condition - In sorted/grouped/monotonic array,(run sorting if not sorted, if allowes)
+    find pairs of limited elements based on given condition (sum, difference...).
+    * 167. Two Sum II - Input Array Is Sorted
+    * 3 sum and variants
+    * 4 sum and variants
+
+
+2 - Use hashmap/hashset to recall previous found elements in O(1) without stepping back.
+    Alternatively, Sorting might also work, but adds logN TC and in case indexes are asked then sorting will not work.
+    * 350. Intersection of Two Arrays II
+    * 1. Two Sum
+
+3 - Two Pointer Greedy - Find single best solution, based on (min,max) but checking elements are still limited
+    * 11- Container with most water
+
+
+
+
+
+Notes:
+    * subarray from index i to ends at index j = j-i+1; -> {i,a,b,j,d,e} -> j, bj, abj, iabj i.e. 4.
+
