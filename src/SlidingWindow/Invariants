@@ -1,0 +1,15 @@
+Invariant 1 — “Validity-maintaining window”
+
+    While increasing window, we make sure that window is satisfying the constraints of the problem. If window breaks the constraints,
+    we shrink our window. So pointer R only moves when window is constraints passed.
+
+    Typical when: “longest/shortest subarray/substring such that condition holds”.
+
+    Common repair rule: expand r, and while invalid → move l to restore validity.
+
+    Problems (3–4):
+    Longest Substring Without Repeating Characters (LC 3)
+    Max Consecutive Ones III (LC 1004)
+    Longest Repeating Character Replacement (LC 424)
+    Minimum Window Substring (LC 76) (hard but classic)
+    Minimum Size Subarray Sum (LC 209)

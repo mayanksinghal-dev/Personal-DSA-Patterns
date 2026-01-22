@@ -14,9 +14,12 @@
     * 11- Container with most water
 
 
+4 - Loop through the array and put your right pointer of window to the farthest last occurrence of all the elements available within
+    the subarray window. All numbers seen so far must be fully contained before the cut.
+    * 2963. Count the Number of Good Partitions
 
 
 
 Notes:
-    * subarray from index i to ends at index j = j-i+1; -> {i,a,b,j,d,e} -> j, bj, abj, iabj i.e. 4.
+    * subarray from index i to ends at index j = j-i+1; -> {i,a,b,j,d,e} -> j, bj, abj, iabj i.e. 4. - LC 3101
 
