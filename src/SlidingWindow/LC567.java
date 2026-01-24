@@ -17,11 +17,10 @@ public class LC567 {
             freq[c-'a']++;
         }
         int i = 0;
-        int j = 0;
         int lenS2 = s2.length();
         int lenS1 = s1.length();
         int count = lenS1;
-        while(j < lenS2){
+        for (int j = 0; j < lenS2; j++){
             char sj = s2.charAt(j);
             if(freq[sj-'a']>0) count--;
             freq[sj-'a']--;

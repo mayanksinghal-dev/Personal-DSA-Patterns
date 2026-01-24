@@ -1,17 +1,113 @@
-Invariant 1 — “Validity-maintaining window”
+If you cannot explain the reason of expansion/shrink of your window. Its high chance that this problem might not belong to sliding window
+or it might be mix of different pattern.
 
-    While increasing window, we make sure that window is satisfying the constraints of the problem. If window breaks the constraints,
-    we shrink our window. So pointer R only moves when window is constraints passed.
+Name 1: Coverage constraint - Find minimum window covers all required chars/elements (with required multiplicities)
+Invariant - Coverage constraint, shrink to minimal while still covering
+Violation Condition - Problems basically request for minimum window which covers all chars of b string into a string. So expanding
+    window even when all chars of b found in a string within current window. Expanding while covered is allowed but wasteful;
+    the real violation is coverage becomes false when shrinking
+Common repair rule - Shrink the window size to release unwanted prefixes, this helps by containing minimum window by removing extra chars.
+One line decision skeleton: Expand window until all chars are not covered within the window, maintain frequency of chars in window ->
+    once all chars are covered, shrink the window to extract unwanted chars -> If any char lost which contributes in frequency of chars of b string
+    -> Note the min window, and then continue finding new window.
+Problems:
+        Minimum Window Substring (LC 76) (hard but classic)
+        Permutation in String (LC 567)
+        Find all anagrams in a String (LC 438)
+        Maximum Number of Vowels in a Substring of Given Length (LC 1456)
 
-    Typical when: “longest/shortest subarray/substring such that condition holds”.
 
-    Common repair rule: expand r, and while invalid → move l to restore validity.
 
-    Problems (3–4):
-    Longest Substring Without Repeating Characters (LC 3)
-    Max Consecutive Ones III (LC 1004)
-    Longest Repeating Character Replacement (LC 424)
-    Minimum Window Substring (LC 76) (hard but classic)
-    Minimum Size Subarray Sum (LC 209)
-    Fruit Into Baskets (LC 904)
-    Permutation in String (LC 567)
+
+
+Name 2: Fixed Length window -> Problem requested to pass the constraints in limited length and return best possible result.
+Invariant - Within each window of K length, we check if its the best solution under certain constraints.
+    if it satisfies the constraints, we accept the window as a result.
+Violation condition - Length of window breached fixed length condition. Problem constraints are optimal within current window.
+Common repair - Maintain fixed window, shrink and expand window together and carry the problem constraints like sum,chars,freq or etc.
+One-line decision skeleton: Expand till k length -> Carry the min/max value(as per problem) -> Move to next window by expand and shrink and repeat validation
+    At each step, the data structure maintains the window of length k.
+    Core Idea - You maintain the exact count of subarray while traversing. You dont shrink window to restore validity
+Problems:
+        Maximum Average Subarray I (LC 643)
+        Minimum swap to group all 1s Together (LC 1151)
+        Max Sum Subarray of size K (GFG 5313)
+        LC 1456 - Maximum Number of Vowels in a Substring of Given Length
+
+
+
+
+
+Name 3: Validation Constraint - longest/shortest subarray/substring such that condition holds.
+Invariant - After each repair step, the window [l..r] satisfies constraint C (an “at-most” style constraint).
+Violation condition - Violation condition must be an O(1) check: After adding a[r], constraint C becomes false.
+                      distinct count >
+                      zeros count > K
+                      some char freq > 1
+                      sum > K (If all +ves, if -ve exists use prefix sum), etc
+Common repair rule: expand r, and while invalid → move l to restore validity.
+Repair Decision - Maintain the constraint, if longest is asked so gradually expand, but if constraints violated, shrink until constraints are valid again.
+    Same for shortest case.
+One-line decision skeleton: Expand while holding constraints -> If constraints violated,shrink -> Validate constraints -> Carry the min/max value(as per problem)
+Note : Sliding window with shrink-to-fix works when the constraint is monotonic with window expansion:
+       * Expanding the window can only make the constraint “same or worse”
+       * Shrinking can only make it “same or better”
+       Longest with at-most constraint: shrink only when invalid; update answer whenever valid.
+       Shortest with at-most constraint: once valid, you usually try to shrink greedily (like min window). (LC 209 behaves like this.)
+       So “validation constraint” and “coverage constraint” are cousins; difference is:
+       * coverage has must contain these specific items
+       * validation has must satisfy a numeric/property bound
+Problems:
+        Longest Substring Without Repeating Characters (LC 3)
+        Max Consecutive Ones III (LC 1004)
+        Longest Repeating Character Replacement (LC 424)
+        Minimum Size Subarray Sum (LC 209)
+        Fruit Into Baskets (LC 904)
+
+
+
+
+
+Name 4A:  Prefix Sum + HashMap (count / max / min subarrays with exact target sum)
+When to choose this - Use this when the “expand/shrink” decision is not monotonic (i.e., future elements can fix or break the condition unpredictably),
+                      OR the array can contain negative numbers, OR the condition is an equality / modular / XOR type that doesn’t behave like “at most”.
+Invariant - While traversing l to r, you maintain prefix sum. Key will be prefix sum and value will be index/frequency of sum or any other factor as per problem.
+Common keywords to track- Count all subarrays, sum equals to k.
+Intuition - Problems where you cannot answer when to expand or shrink, and the decision depends on the sum of subarray, decision is not monotonic and future values
+    can effect both positively and negatively.
+One-line decision skeleton -> Traverse through the array and carry map of prefix sum -> Check if CurrSum-Goal found in the past -> If yes, you found one of your solution.
+Note - If asked for count, carry frequency in value. If asked for min window, carry latest index where sum found or oldest index where sum found if asked for max window.
+Core - As you scan i = 0..n-1, maintain:
+       pref = sum(nums[0..i])
+       A hashmap freq[pref] = how many times this prefix sum has appeared so far
+Problems:
+        560 Subarray Sum Equals K
+        930 Binary Subarrays With Sum (prefix sum works too, even though atMost trick also works)
+        974 Subarray Sums Divisible by K
+        525 Contiguous Array (equal 0s and 1s)
+        1248 Count Number of Nice Subarrays (prefix sum works; also solvable with atMost trick)
+        523 Continuous Subarray Sum (mod-based)
+        325 Maximum Size Subarray Sum Equals k (premium, but classic)
+
+
+
+
+
+Name 4B: At most sliding window + Difference trick (count / max / min subarrays with exact target sum) Alternative of prefix sum - O(1) TC
+It is a better solution than prefix sum + hashmaps in following limitation:
+When to choose this - Use this when both are true:
+        Array values are non-negative (binary, or all positives/zeros), so window sum/constraint is monotonic.
+        The problem asks exactly K (or sum == K), and you can compute:
+            * count(atMost(K)) efficiently with sliding window
+Then:
+        * count(exactly K) = count(atMost(K)) − count(atMost(K−1))
+Invariant for atMost(K) (Same as invariant 3) - Maintain window [l..r] such that constraint holds (e.g., sum ≤ K, distinct ≤ K, odds ≤ K).
+                        * Expand r
+                        * While invalid, move l to restore validity
+                        * Once valid, all subarrays ending at r starting from l..r are valid, so add:
+                            * ans += (r - l + 1) -> Formula to know all subarrays ending at r index.
+Problems:
+        930 Binary Subarrays With Sum (sum == goal with 0/1 array)
+        1248 Count Number of Nice Subarrays (exactly K odds)
+        992 Subarrays with K Different Integers (exactly K distinct)
+        713 Subarray Product Less Than K (direct atMost counting, not difference trick)

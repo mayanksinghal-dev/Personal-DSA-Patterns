@@ -1,2 +1,0 @@
-1 - Subarray sum equals to K -> Here we are not searching for specific count of elements but rather a window. If the array is
-unsorted and no particular reason of increase/decrease the window.
