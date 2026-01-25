@@ -4,7 +4,7 @@ or it might be mix of different pattern.
 Note:
     * If remainder of 2 subarrays is same when divided by k, then remainder of difference of those subarrays is 0 with same k divisor.
         S1%K = r, S2%K = r, then (s1-s2)%k=0; Used in 974,523 - Used in Name 4: Prefix sum + hashmap;
-    * Get all subarrays ending at index right upto left index -> right-left+1;
+    * Get all subarrays ending at index right upto left index -> right-left+1; Used in 992 (At most K sliding window + difference trick)
 
 
 
@@ -70,7 +70,7 @@ Problems:
         Longest Repeating Character Replacement (LC 424)
         Minimum Size Subarray Sum (LC 209)
         Fruit Into Baskets (LC 904)
-
+        713 Subarray Product Less Than K (direct atMost counting, not difference trick)
 
 
 
@@ -116,4 +116,3 @@ Problems:
         930 Binary Subarrays With Sum (sum == goal with 0/1 array)
         1248 Count Number of Nice Subarrays (exactly K odds)
         992 Subarrays with K Different Integers (exactly K distinct)
-        713 Subarray Product Less Than K (direct atMost counting, not difference trick)
