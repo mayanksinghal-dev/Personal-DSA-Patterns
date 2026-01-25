@@ -1,6 +1,13 @@
 If you cannot explain the reason of expansion/shrink of your window. Its high chance that this problem might not belong to sliding window
 or it might be mix of different pattern.
 
+Note:
+    * If remainder of 2 subarrays is same when divided by k, then remainder of difference of those subarrays is 0 with same k divisor.
+        S1%K = r, S2%K = r, then (s1-s2)%k=0; Used in 974,523 - Used in Name 4: Prefix sum + hashmap;
+    * Get all subarrays ending at index right upto left index -> right-left+1;
+
+
+
 Name 1: Coverage constraint - Find minimum window covers all required chars/elements (with required multiplicities)
 Invariant - Coverage constraint, shrink to minimal while still covering
 Violation Condition - Problems basically request for minimum window which covers all chars of b string into a string. So expanding
@@ -88,7 +95,6 @@ Problems:
         1248 Count Number of Nice Subarrays (prefix sum works; also solvable with atMost trick)
         523 Continuous Subarray Sum (mod-based)
         325 Maximum Size Subarray Sum Equals k (premium, but classic)
-
 
 
 
