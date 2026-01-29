@@ -59,6 +59,7 @@ One-line decision skeleton: Expand while holding constraints -> If constraints v
 Note : Sliding window with shrink-to-fix works when the constraint is monotonic with window expansion:
        * Expanding the window can only make the constraint “same or worse”
        * Shrinking can only make it “same or better”
+       * Does NOT work if array contains negatives and constraint depends on sum
        Longest with at-most constraint: shrink only when invalid; update answer whenever valid.
        Shortest with at-most constraint: once valid, you usually try to shrink greedily (like min window). (LC 209 behaves like this.)
        So “validation constraint” and “coverage constraint” are cousins; difference is:
@@ -71,6 +72,8 @@ Problems:
         Minimum Size Subarray Sum (LC 209)
         Fruit Into Baskets (LC 904)
         713 Subarray Product Less Than K (direct atMost counting, not difference trick)
+        2762. Continuous Subarrays
+        2799. Count Complete Subarrays in an Array
 
 
 
@@ -116,3 +119,39 @@ Problems:
         930 Binary Subarrays With Sum (sum == goal with 0/1 array)
         1248 Count Number of Nice Subarrays (exactly K odds)
         992 Subarrays with K Different Integers (exactly K distinct)
+
+
+
+Core patterns (Prefix)
+1. Same prefix state ⇒ valid subarray
+        If a condition can be written as: prefix[j] == prefix[i6]
+        Then:
+        Count how many times each prefix value occurs
+        For frequency f, number of valid pairs:
+        f × (f − 1) / 2
+
+        This shows up in:
+        Zero-sum subarrays
+        Sum divisible by k
+        Equal number of 0s and 1s (after mapping)
+
+
+
+2. Prefix difference ⇒ condition
+        Some conditions look like: prefix[j] − prefix[i] = X
+        Rearranged: prefix[i] = prefix[j] − X
+        So: While iterating, check how many times (prefix − X) appeared before
+        Add to favorable count
+
+
+
+3. Binary mapping → prefix balance
+        Probability problems often map values first:
+        Original	Mapped
+        0	−1
+        1	+1
+
+        Now:
+        Prefix sum = balance
+        Subarray condition becomes equality of balances
+        This trick converts probabilistic logic into pure counting.
